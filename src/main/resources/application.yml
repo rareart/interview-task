@@ -1,5 +1,19 @@
 spring:
   application:
     name: interview-task
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db:5432/interview_task_db}
+    username: ${SPRING_DATASOURCE_USERNAME:interviewer}
+    password: ${SPRING_DATASOURCE_PASSWORD:three_tasks}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        ddl-auto: validate
+    open-in-view: false
+    show-sql: true
+  liquibase:
+    enabled: true
 server:
   port: 8082
