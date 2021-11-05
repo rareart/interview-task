@@ -1,4 +1,5 @@
 spring:
   application:
     name: interview-task
-
+server:
+  port: 8082
