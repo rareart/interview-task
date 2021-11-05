@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: rareart
+      changes:
+        - createTable:
+            - tableName: Entity
+              columns:
+                - column:
+                    name: id
+                    type: bigserial
+                - column:
+                    name: code
+                    type: int
+                - column:
+                    name: sysname
+                    type: varchar
+                - column:
+                    name: watched_dttm
+                    type: date
+                - column:
+                    name: description
+                    type: varchar
+                - column:
+                    name: data
+                    type: varchar
+  - changeSet:
+      id: 2
+        author: rareart
+        changes:
+          - createIndex:
+              columns:
+                - column:
+                    name: code
+              indexName: ENTITY_CODE
+              schemaName: public
+              tableName: Entity
+          - createIndex:
+              columns:
+                - column:
+                    name: sysname
+              indexName: ENTITY_SYSNAME
+              schemaName: public
+              tableName: Entity
+          - createIndex:
+              columns:
+                - column:
+                    name: code
+                - column:
+                    name: sysname
+              indexName: ENTITY_CODE_SYSNAME
+              schemaName: public
+              tableName: Entity

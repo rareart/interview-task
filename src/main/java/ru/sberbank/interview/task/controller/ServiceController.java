@@ -8,8 +8,10 @@ import ru.sberbank.interview.task.controller.dto.res.GetListRes;
 import ru.sberbank.interview.task.controller.dto.support.Entity;
 import ru.sberbank.interview.task.exception.MissingIdException;
 import ru.sberbank.interview.task.service.Service;
+import ru.sberbank.interview.task.utils.preloader.Preload;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,10 +20,12 @@ import java.util.stream.Collectors;
 public class ServiceController {
 
     private final Service service;
+    private final Preload preloadDB;
 
     @Autowired
-    public ServiceController(Service service) {
+    public ServiceController(Service service, Preload preloadDB) {
         this.service = service;
+        this.preloadDB = preloadDB;
     }
 
     @GetMapping
@@ -56,5 +60,16 @@ public class ServiceController {
                 .stream(header.split(","))
                 .map(s -> Long.parseLong(s.trim()))
                 .collect(Collectors.toList());
+    }
+
+    @PostMapping("/preload")
+    public ResponseEntity<?> preloadDbData(@RequestBody String executeFlag){
+        if(executeFlag != null && executeFlag.equals("true")){
+            preloadDB.execute();
+            return new ResponseEntity<>(
+                    Collections.singletonMap("status", "preload_executed"),
+                    HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 }

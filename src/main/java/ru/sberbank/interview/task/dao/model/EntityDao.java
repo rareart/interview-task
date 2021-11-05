@@ -1,9 +1,6 @@
 package ru.sberbank.interview.task.dao.model;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,6 +11,8 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class EntityDao implements Serializable {
 
     @Id
@@ -27,5 +26,4 @@ public class EntityDao implements Serializable {
     private Date watchedDttm;
     private String description;
     private String data;
-
 }

@@ -1,7 +1,9 @@
 package ru.sberbank.interview.task.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.sberbank.interview.task.controller.dto.res.GetListRes;
 import ru.sberbank.interview.task.controller.dto.support.Entity;
 import ru.sberbank.interview.task.dao.model.EntityDao;
@@ -13,8 +15,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@Component
-public class ServiceImpl implements Service {
+@Service
+public class ServiceImpl implements ru.sberbank.interview.task.service.Service {
 
     private final EntityRepository entityRepository;
 
@@ -23,6 +25,7 @@ public class ServiceImpl implements Service {
         this.entityRepository = entityRepository;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public List<Entity> getEntitiesByIds(List<Long> ids) throws MissingIdException {
         List<EntityDao> responseEntities = entityRepository.findAllById(ids);
@@ -41,6 +44,7 @@ public class ServiceImpl implements Service {
         return convertEntity(responseEntities);
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public List<Entity> getEntitiesByCodeAndSysname(Integer code, String sysname) {
         if(code != null && sysname != null){
@@ -58,6 +62,7 @@ public class ServiceImpl implements Service {
         return convertEntity(entityRepository.findAll());
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Override
     public GetListRes getList(String sysname) {
         List<EntityDao> responseEntities =
