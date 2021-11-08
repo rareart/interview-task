@@ -10,6 +10,8 @@ import ru.sberbank.interview.task.exception.MissingIdException;
 import ru.sberbank.interview.task.service.Service;
 import ru.sberbank.interview.task.utils.preloader.Preload;
 
+import javax.servlet.http.HttpServletRequest;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,15 +31,21 @@ public class ServiceController {
     }
 
     @GetMapping
-    public List<Entity> getEntities(
-            @RequestHeader(name = "Entities-List") String ids,
-            @RequestParam Integer code,
-            @RequestParam String sysname) throws MissingIdException {
+    public ResponseEntity<List<Entity>> getEntities(
+            @RequestHeader(name = "Entities-List", required = false) String ids,
+            @RequestParam(required = false) Integer code,
+            @RequestParam(required = false) String sysname,
+            HttpServletRequest request) throws MissingIdException {
 
         if(ids != null){
-            return service.getEntitiesByIds(headerStringToLongList(ids));
+            return new ResponseEntity<>(
+                    service.getEntitiesByIds(headerStringToLongList(ids)), HttpStatus.OK);
         }
-        return service.getEntitiesByCodeAndSysname(code, sysname);
+        if(code != null || sysname != null || !request.getParameterNames().hasMoreElements()){
+            return new ResponseEntity<>(
+                    service.getEntitiesByCodeAndSysname(code, sysname), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/{sysName}")
@@ -55,21 +63,22 @@ public class ServiceController {
         }
     }
 
-    private List<Long> headerStringToLongList(String header) {
-        return Arrays
-                .stream(header.split(","))
-                .map(s -> Long.parseLong(s.trim()))
-                .collect(Collectors.toList());
-    }
-
     @PostMapping("/preload")
-    public ResponseEntity<?> preloadDbData(@RequestBody String executeFlag){
-        if(executeFlag != null && executeFlag.equals("true")){
+    public ResponseEntity<?> preloadDbData(
+            @RequestBody String executeFlag) throws ParseException {
+        if(executeFlag != null && executeFlag.equals("\"execute\"")){
             preloadDB.execute();
             return new ResponseEntity<>(
                     Collections.singletonMap("status", "preload_executed"),
                     HttpStatus.CREATED);
         }
         return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+
+    private List<Long> headerStringToLongList(String header) {
+        return Arrays
+                .stream(header.split(","))
+                .map(s -> Long.parseLong(s.trim()))
+                .collect(Collectors.toList());
     }
 }

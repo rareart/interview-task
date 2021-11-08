@@ -10,9 +10,7 @@ import ru.sberbank.interview.task.dao.model.EntityDao;
 import ru.sberbank.interview.task.dao.repository.EntityRepository;
 import ru.sberbank.interview.task.exception.MissingIdException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,16 +28,14 @@ public class ServiceImpl implements ru.sberbank.interview.task.service.Service {
     public List<Entity> getEntitiesByIds(List<Long> ids) throws MissingIdException {
         List<EntityDao> responseEntities = entityRepository.findAllById(ids);
 
-        //Stream::distinct comparing complexity is O(1), backed by HashSet:
-        List<Long> missingIds = responseEntities
-                .stream()
-                .map(EntityDao::getId)
-                .distinct()
-                .filter(ids::contains)
-                .collect(Collectors.toList());
+        //reduce complexity to O(n), backed by HashSet O(1) comparing complexity:
+        Set<Long> entitiesIds = responseEntities.stream()
+                .map(EntityDao::getId).collect(Collectors.toSet());
 
-        if(missingIds.size() > 0){
-            throw new MissingIdException("Some ids are missing in the database", missingIds);
+        ids.removeAll(entitiesIds);
+
+        if(ids.size() > 0){
+            throw new MissingIdException("Some ids are missing in the database", ids);
         }
         return convertEntity(responseEntities);
     }

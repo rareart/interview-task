@@ -4,7 +4,7 @@ databaseChangeLog:
       author: rareart
       changes:
         - createTable:
-            - tableName: Entity
+            - tableName: entity
               columns:
                 - column:
                     name: id
@@ -17,7 +17,7 @@ databaseChangeLog:
                     type: varchar
                 - column:
                     name: watched_dttm
-                    type: date
+                    type: timestamp
                 - column:
                     name: description
                     type: varchar
@@ -26,28 +26,28 @@ databaseChangeLog:
                     type: varchar
   - changeSet:
       id: 2
-        author: rareart
-        changes:
-          - createIndex:
-              columns:
-                - column:
-                    name: code
-              indexName: ENTITY_CODE
-              schemaName: public
-              tableName: Entity
-          - createIndex:
-              columns:
-                - column:
-                    name: sysname
-              indexName: ENTITY_SYSNAME
-              schemaName: public
-              tableName: Entity
-          - createIndex:
-              columns:
-                - column:
-                    name: code
-                - column:
-                    name: sysname
-              indexName: ENTITY_CODE_SYSNAME
-              schemaName: public
-              tableName: Entity
+      author: rareart
+      changes:
+        - createIndex:
+            columns:
+              - column:
+                  name: code
+            indexName: ENTITY_CODE
+            schemaName: public
+            tableName: entity
+        - createIndex:
+            columns:
+              - column:
+                  name: sysname
+            indexName: ENTITY_SYSNAME
+            schemaName: public
+            tableName: entity
+        - createIndex:
+            columns:
+              - column:
+                  name: code
+              - column:
+                  name: sysname
+            indexName: ENTITY_CODE_SYSNAME
+            schemaName: public
+            tableName: entity

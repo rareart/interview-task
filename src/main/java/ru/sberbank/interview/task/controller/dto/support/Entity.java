@@ -2,11 +2,15 @@ package ru.sberbank.interview.task.controller.dto.support;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.Date;
 
 @AllArgsConstructor
+@Getter
+@JsonPropertyOrder({"entityId", "code", "watched", "description", "data"})
 public class Entity {
 
     @JsonProperty("entityId")

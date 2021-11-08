@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "Entity")
+@Table(name = "entity")
 @Getter
 @Setter
 @ToString
@@ -23,6 +23,7 @@ public class EntityDao implements Serializable {
     private String sysname;
 
     @Column(name = "watched_dttm")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date watchedDttm;
     private String description;
     private String data;

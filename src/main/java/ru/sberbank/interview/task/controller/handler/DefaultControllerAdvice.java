@@ -5,12 +5,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.transaction.TransactionException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.sberbank.interview.task.controller.dto.support.ErrorResponse;
 import ru.sberbank.interview.task.exception.MissingIdException;
 
-@ControllerAdvice
+import java.text.ParseException;
+
+@RestControllerAdvice
 public class DefaultControllerAdvice {
 
     @ExceptionHandler(MissingIdException.class)
@@ -28,6 +30,16 @@ public class DefaultControllerAdvice {
                         "Unable to read your request",
                         e.getMessage()),
                 HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ParseException.class)
+    public ResponseEntity<ErrorResponse> handleInternalException(ParseException e){
+        return new ResponseEntity<>(
+                new ErrorResponse(
+                        500,
+                        "internal preload parsing error",
+                        e.getMessage()),
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(TransactionException.class)
@@ -57,6 +69,6 @@ public class DefaultControllerAdvice {
                         500,
                         "Server returned an unexpected error: " + e.getClass().getName(),
                         e.getMessage()),
-                HttpStatus.BAD_REQUEST);
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
