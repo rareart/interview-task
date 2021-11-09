@@ -24,7 +24,7 @@ public class PreloadWithRandomData implements Preload {
     @Override
     public void execute() throws ParseException {
         entityRepository.save(
-                new EntityDao(0L,
+                new EntityDao(null,
                         111,
                         "orange",
                         new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
@@ -33,7 +33,7 @@ public class PreloadWithRandomData implements Preload {
                         "some data")
         );
         entityRepository.save(
-                new EntityDao(0L,
+                new EntityDao(null,
                         222,
                         "green",
                         new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
@@ -42,7 +42,7 @@ public class PreloadWithRandomData implements Preload {
                         "some data2")
         );
         entityRepository.save(
-                new EntityDao(0L,
+                new EntityDao(null,
                         333,
                         "red",
                         null,
@@ -50,7 +50,7 @@ public class PreloadWithRandomData implements Preload {
                         "some data3")
         );
         entityRepository.save(
-                new EntityDao(0L,
+                new EntityDao(null,
                         444,
                         "purple",
                         new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
@@ -59,7 +59,7 @@ public class PreloadWithRandomData implements Preload {
                         "some data4")
         );
         entityRepository.save(
-                new EntityDao(0L,
+                new EntityDao(null,
                         444,
                         "yellow",
                         null,
@@ -67,7 +67,7 @@ public class PreloadWithRandomData implements Preload {
                         "some data5")
         );
         entityRepository.save(
-                new EntityDao(0L,
+                new EntityDao(null,
                         555,
                         "purple",
                         new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
@@ -76,7 +76,7 @@ public class PreloadWithRandomData implements Preload {
                         "some data6")
         );
         entityRepository.save(
-                new EntityDao(0L,
+                new EntityDao(null,
                         333,
                         "red",
                         new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
@@ -85,7 +85,7 @@ public class PreloadWithRandomData implements Preload {
                         "some data7")
         );
         entityRepository.save(
-                new EntityDao(0L,
+                new EntityDao(null,
                         123,
                         "red",
                         null,

@@ -13,7 +13,7 @@ spring:
         ddl-auto: validate
         default_schema: public
     open-in-view: false
-    show-sql: true
+    show-sql: false
   liquibase:
     enabled: true
 server:
